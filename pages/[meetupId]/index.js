@@ -1,7 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { Fragment } from "react";
 import Head from "next/head";
-
 import MeetupDetail from "../../components/meetups/MeetupDetail";
 
 function MeetupDetails(props) {
@@ -20,7 +19,7 @@ function MeetupDetails(props) {
     </Fragment>
   );
 }
-/////////////////////////////
+
 export async function getStaticPaths() {
   const client = await MongoClient.connect(
     "mongodb+srv://ms277712:ms277712@cluster0.r4wf34z.mongodb.net/meetups?retryWrites=true&w=majority"
@@ -43,11 +42,14 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const meetupId = context.params.meetupId;
+
   const client = await MongoClient.connect(
     "mongodb+srv://ms277712:ms277712@cluster0.r4wf34z.mongodb.net/meetups?retryWrites=true&w=majority"
   );
   const db = client.db();
+
   const meetupsCollection = db.collection("meetups");
+
   const selectedMeetup = await meetupsCollection.findOne({
     _id: ObjectId(meetupId),
   });
